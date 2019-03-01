@@ -22,15 +22,17 @@
 						<tr>
 							<th>Id</th>
 							<th>Name</th>
-							<th>LastName</th>
+							<th>Description</th>
+							<th>Photo</th>
 							<th>Age</th>
 						</tr>
-						<tr th:each="u:${users}">
-							<td><a th:href="@{/printUser(id=${u.id})}"><label th:text="${u.id}"></label></a></td>
-							<td th:text="${u.name}"></td>
-							<td th:text="${u.lastname}"></td>
-							<td th:text="${u.age}"></td>
-							<td><a th:href="@{/deleteUser(id=${u.id})}">Delete</a></td>
+						<tr th:each="p:${produits}">
+							<td><a th:href="@{/printProduit(id=${p.idProduit})}"><label th:text="${p.idProduit}"></label></a></td>
+							<td th:text="${p.nomProduit}"></td>
+							<td th:text="${p.description}"></td>
+							<td th:text="${p.photo}"></td>
+							<td th:text="${p.quantite}"></td>
+							<td><a th:href="@{/deleteProduit(id=${p.idProduit})}">Delete</a></td>
 						</tr>
 
 					</table>
@@ -44,51 +46,57 @@
 		<div class="col-md-4">
 	
 			<div class="panel panel-primary" th:if="${edit} == 0">
-				<div class="panel-heading">Add Users :</div>
+				<div class="panel-heading">Add Produits :</div>
 				<div class="panel-body">				
 			
-					<form th:action="@{/addUser}" method="post">
+					<form th:action="@{/addProduit}" method="post">
 						<div>
 							<table class="table table-condensed table-hover table-striped">
 								 <tr>
-									<td><label>Name : </label></td>   <td><input type="text"  name="name"/></td>
+									<td><label>Name : </label></td>   <td><input type="text"  name="nomProduit"/></td>
 								</tr>
 								<tr>
-									<td><label>last Name : </label></td><td><input type="text"  name="lastname"/></td>
+									<td><label>Description : </label></td><td><input type="text"  name="description"/></td>
 								</tr>
 								<tr>
-									<td><label>Age : </label></td><td><input type="text"  name="age"/></td>
+									<td><label>Photo : </label></td><td><input type="text"  name="photo"/></td>
+								</tr>
+								<tr>
+									<td><label>Quantity : </label></td><td><input type="text"  name="quantite"/></td>
 								</tr>
 							</table>
 
-							<button type="submit" class="btn btn-primary">Add user</button>
+							<button type="submit" class="btn btn-primary">Add produit</button>
 						</div>
 					</form>
 				</div>
 			</div>
 					
 			<div class="panel panel-primary" th:if="${edit} == 1">
-				<div class="panel-heading">Edit Users :</div>
+				<div class="panel-heading">Edit Produits :</div>
 				<div class="panel-body">				
 			
-					<form th:action="@{/editUser}" method="post">
+					<form th:action="@{/editProduit}" method="post">
 						<div>
 						<table class="table table-condensed table-hover table-striped">
 								 <tr>
-									<td><label>Name : </label></td>   <td><input type="text" id="name"  name="name" th:value="${user.name}"/></td>
+									<td><label>Name : </label></td>   <td><input type="text" id="nomProduit"  name="nomProduit" th:value="${produit.nomProduit}"/></td>
 								</tr>
 								<tr>
-									<td><label>last Name : </label></td><td><input type="text" id="lastname"  name="lastname" th:value="${user.lastname}"/></td>
+									<td><label>Description : </label></td><td><input type="text" id="description"  name="description" th:value="${produit.description}"/></td>
 								</tr>
 								<tr>
-									<td><label>Age : </label></td><td><input type="text" id="age"  name="age" th:value="${user.age}"/></td>
+									<td><label>Photo : </label></td><td><input type="text" id="photo"  name="photo" th:value="${produit.photo}"/></td>
+								</tr>
+								<tr>
+									<td><label>Quantity : </label></td><td><input type="text" id="quantite"  name="quantite" th:value="${produit.quantite}"/></td>
 								</tr>
 								
 							</table>
 							
-							<input type="hidden" id="id" th:name="id" th:value="${user.id}" />
-							<button type="submit" class="btn btn-primary" onclick="sendActionAdd(0);" th:text="'Add user'">Add user</button>
-							<button type="submit" class="btn btn-primary" th:text="'Edit user Id = '+ ${user.id}"></button>
+							<input type="hidden" id="id" th:name="id" th:value="${produit.idProduit}" />
+							<button type="submit" class="btn btn-primary" onclick="sendActionAdd(0);" th:text="'Add produit'">Add produit</button>
+							<button type="submit" class="btn btn-primary" th:text="'Edit produit Id = '+ ${produit.idProduit}"></button>
 						</div>
 					</form>
 				</div>
