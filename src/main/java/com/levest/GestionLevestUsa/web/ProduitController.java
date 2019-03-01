@@ -4,12 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.levest.GestionLevestUsa.entities.Produit;
 import com.levest.GestionLevestUsa.service.IProduitService;
@@ -29,7 +26,7 @@ public class ProduitController {
 	}	
 	
 	@RequestMapping("/addProduit")
-	public String addUser(ModelMap model,  @ModelAttribute("name")String name,  @ModelAttribute("lastname")String lastname,  @ModelAttribute("age")int age) { 
+	public String addUser(ModelMap model,  @ModelAttribute("nomProduit")String nomProduit,  @ModelAttribute("description")String description, @ModelAttribute("photo")String photo,  @ModelAttribute("quantite")int quantite) { 
 		Produit p = new Produit();
 		p.setNomProduit(nomProduit);
 		p.setDescription(description);
@@ -37,17 +34,17 @@ public class ProduitController {
 		p.setQuantite(quantite);
 		produitService.create(p);
 		
-		return home(model,0);
+		return index(model,0);
 
 	}
 	
 	
 	@RequestMapping("/deleteUser")
-	public String deleteUser(ModelMap model,int id) {
+	public String deleteProduit(ModelMap model,long id) {
 		
-		userRepo.deleteById(id);
+		produitService.delete(id);
 		
-		return home(model,0);
+		return index(model,0);
 	}
 	
 	/**
@@ -59,24 +56,25 @@ public class ProduitController {
 	 * @param age
 	 * @return
 	 */
-	@RequestMapping("/printUser")
-	public String printUser(ModelMap model,int id) {
-		User u = userRepo.findById(id).get();
-		model.put("user", u);
+	@RequestMapping("/printProduit")
+	public String printUser(ModelMap model,long id) {
+		Produit p = produitService.selectById(id);
+		model.put("produit", p);
 		
-		return home(model,1);
+		return index(model,1);
 	}
 	
 	@RequestMapping("/editUser")
-	public String editUser(ModelMap model,int id, String name, String lastname, int age) {
+	public String editUser(ModelMap model,long id, String nomProduit, String description, String photo, int quantite) {
 		//if id==0 then we add an user else we modify an user existing
-		User u = new User();
-		u.setId(id);
-		u.setName(name);
-		u.setLastname(lastname);
-		u.setAge(age);
-		userRepo.save(u);
-		return home(model,0);
+		Produit p = new Produit();
+		p.setIdProduit(id);
+		p.setNomProduit(nomProduit);
+		p.setDescription(description);
+		p.setPhoto(photo);
+		p.setQuantite(quantite);
+		produitService.update(p);
+		return index(model,0);
 	}
 	
 }
