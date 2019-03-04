@@ -45,6 +45,12 @@ public class ProduitController {
 		return index(model,1);
 	}
 	
+	/**
+	 * Search with criteria name and/or description
+	 * @param model
+	 * @param nomProduit
+	 * @return
+	 */
 	@RequestMapping("/searchProduit")
 	public String searchProduit(ModelMap model,String nomProduit) {
 		System.out.print("searchProduit ");

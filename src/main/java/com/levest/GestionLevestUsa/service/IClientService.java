@@ -12,4 +12,6 @@ public interface IClientService {
 	public void delete(Long id);
 	public List<Client> listClients();
 	
+	public List<Client> getClientsParMotCle(String mc);
+	
 }

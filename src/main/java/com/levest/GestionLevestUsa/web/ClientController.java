@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.levest.GestionLevestUsa.entities.Client;
+import com.levest.GestionLevestUsa.entities.Produit;
 import com.levest.GestionLevestUsa.service.IClientService;
 
 
@@ -62,6 +63,23 @@ public class ClientController {
 		c.setCommentaire(commentaire);
 		clientService.update(c);
 		return index(model,0);
+	}
+	
+	/**
+	 * Search with criteria name and/or description
+	 * @param model
+	 * @param nomProduit
+	 * @return
+	 */
+	@RequestMapping("/searchClient")
+	public String searchClient(ModelMap model,String nomClient) {
+		System.out.println("searchClient ");
+		List<Client> clients = clientService.getClientsParMotCle(nomClient);
+		System.out.println("searchClient : "+clients.size());
+		model.put("clients", clients);
+		model.put("edit",0);
+		
+		return "clients";
 	}
 	
 }

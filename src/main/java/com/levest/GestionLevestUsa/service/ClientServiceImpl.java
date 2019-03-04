@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.levest.GestionLevestUsa.dao.IClientRepository;
 import com.levest.GestionLevestUsa.entities.Client;
 import com.levest.GestionLevestUsa.entities.Commande;
+import com.levest.GestionLevestUsa.entities.Produit;
 
 @Service
 public class ClientServiceImpl implements IClientService {
@@ -60,6 +61,22 @@ public class ClientServiceImpl implements IClientService {
 		return list;
 	}
 
+
+
+	/**
+	 * @return
+	 */
+	@Override
+	public List<Client> getClientsParMotCle(String mc) {
+		List<Client> list = clientDao.getClientParMotCle(mc);
+		if (list == null) {
+			System.out.println("Liste est null");
+		} else {
+
+			System.out.println("taille de la liste " + list.size());
+		}
+		return list;
+	}
 
 
 
