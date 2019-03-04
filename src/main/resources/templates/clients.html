@@ -60,7 +60,7 @@ function sendActionAdd(modeAddEdit) {
 							<td th:text="${c.adresse}"></td>
 							<td th:text="${c.email}"></td>
 							<td th:text="${c.tel}"></td>
-							<td th:text="${c.commentaire}"></td>
+							<td th:text="${#strings.abbreviate(c.commentaire,45)}" th:title="${c.commentaire}"></td>
 							<td><a class="btn btn-danger" th:href="@{/deleteClient(id=${c.idClient})}">Delete</a></td>
 						</tr>
 
@@ -94,7 +94,7 @@ function sendActionAdd(modeAddEdit) {
 									<td><label>Tel : </label></td><td><input type="text"  name="tel"/></td>
 								</tr>
 								<tr>
-									<td><label>Commentaire : </label></td><td><input type="text"  name="commentaire"/></td>
+									<td><label>Commentaire : </label></td><td><textarea  rows = "5" cols = "40"  name="commentaire"></textarea></td>
 								</tr>								
 							</table>
 							<input type="hidden" id="id" th:name="id" th:value="0" />
@@ -124,7 +124,7 @@ function sendActionAdd(modeAddEdit) {
 									<td><label>Tel : </label></td><td><input type="text" id="tel"  name="tel" th:value="${client.tel}"/></td>
 								</tr>
 								<tr>
-									<td><label>Commentaire : </label></td><td><input type="text" id="commentaire"  name="commentaire" th:value="${client.commentaire}"/></td>
+									<td><label>Commentaire : </label></td><td><textarea  rows = "5" cols = "40" id="commentaire"  name="commentaire" th:field="${client.commentaire}"></textarea></td>
 								</tr>
 							</table>
 							
