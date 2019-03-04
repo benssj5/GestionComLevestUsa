@@ -27,6 +27,13 @@ public class CommandeServiceImpl implements ICommandeService {
 		c = commandeDao.save(commande);
 		return c;
 	}
+	
+	@Override
+	public Commande update(Commande commande) {
+		Commande c = null;
+		c = commandeDao.save(commande);
+		return c;
+	}
 
 	@Override
 	public Commande selectById(Long id) {

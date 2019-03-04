@@ -8,6 +8,7 @@ import com.levest.GestionLevestUsa.entities.Commande;
 public interface ICommandeService {
 
 	public Commande create(Commande c);
+	public Commande update(Commande c);
 	public Commande selectById(Long id);
 	public void delete(Long id);
 	public List<Commande> listCommandes();

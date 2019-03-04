@@ -6,12 +6,134 @@
 <head>
 <meta charset="utf-8" />
 <title>Gestion Levest USA - Commandes</title>
+
+<SCRIPT language="Javascript">
+
+function sendActionAdd(modeAddEdit) {
+	document.getElementById("id").value=modeAddEdit;
+};
+
+</SCRIPT>
+
 </head>
 <body>
 	
 	<div layout:fragment="content">
-TEST 1
 
+		<!-- Criteres de recherche -->
+		<div class="col-md-8">
+			<div class="panel panel-primary">
+				<div class="panel-heading">Critères de recherche :</div>
+				<div class="panel-body">
+				<form th:action="@{/searchCommande}" method="get">
+					<table class="col-md-12" >
+					<tr>
+						<td>Criteria : </td><td><input type="text"  name="nomCommande"/></td><td><button type="submit" class="btn btn-primary right">Search</button></td>
+					</tr>
+					</table>
+				</form>
+				
+				</div>
+				
+			</div>
+		
+		</div>
+
+		<!-- first col -->
+		<div class="col-md-8">
+		
+			<div class="panel panel-primary">
+				<div class="panel-heading">Liste des Commandes :</div>
+				<div class="panel-body">
+					<table class="table table-striped">
+						<tr>
+							<th>Id</th>
+							<th>Date</th>
+
+						</tr>
+						<tr th:each="c:${commandes}">
+							<td><a class="btn btn-info" th:href="@{/printCommande(id=${c.idCommande})}"><label th:text="${c.idCommande}"></label></a></td>
+							<td th:text="${c.date}"></td>
+							<td th:text="${#strings.abbreviate(c.commentaire,45)}" th:title="${c.commentaire}"></td>
+							<td><a class="btn btn-danger" th:href="@{/deleteCommande(id=${c.idCommande})}">Delete</a></td>
+						</tr>
+
+					</table>
+					
+				</div>
+			</div>
+		
+		</div><!-- end first div col -->
+
+		<!-- second col -->
+		<div class="col-md-4">
+	
+			<div class="panel panel-primary" th:if="${edit} == 0">
+				<div class="panel-heading">Add Commande :</div>
+				<div class="panel-body">				
+			
+					<form th:action="@{/addEditCommande}" method="post">
+						<div>
+							<table class="table table-condensed table-hover table-striped">
+								 <tr>
+									<td><label>Name : </label></td>   <td><input type="text"  name="nomCommande"/></td>
+								</tr>
+								<tr>
+									<td><label>Adresse : </label></td><td><input type="text"  name="adresse"/></td>
+								</tr>
+								<tr>
+									<td><label>Email : </label></td><td><input type="text"  name="email"/></td>
+								</tr>
+								<tr>
+									<td><label>Tel : </label></td><td><input type="text"  name="tel"/></td>
+								</tr>
+								<tr>
+									<td><label>Comments : </label></td><td><textarea  rows = "5" cols = "40"  name="commentaire"></textarea></td>
+								</tr>								
+							</table>
+							<input type="hidden" id="id" th:name="id" th:value="0" />
+							<button type="submit" class="btn btn-primary">Add commande</button>
+						</div>
+					</form>
+				</div>
+			</div>
+					
+			<div class="panel panel-primary" th:if="${edit} == 1">
+				<div class="panel-heading">Add/Edit Commandes :</div>
+				<div class="panel-body">				
+			
+					<form th:action="@{/addEditCommande}" method="post">
+						<div>
+						<table class="table table-condensed table-hover table-striped">
+								 <tr>
+									<td><label>Name : </label></td>   <td><input type="text" id="nomCommande"  name="nomCommande" th:value="${commande.nomCommande}"/></td>
+								</tr>
+								<tr>
+									<td><label>Adresse : </label></td><td><input type="text" id="adresse"  name="adresse" th:value="${commande.adresse}"/></td>
+								</tr>
+								<tr>
+									<td><label>Email : </label></td><td><input type="text" id="email"  name="email" th:value="${commande.email}"/></td>
+								</tr>
+								<tr>
+									<td><label>Tel : </label></td><td><input type="text" id="tel"  name="tel" th:value="${commande.tel}"/></td>
+								</tr>
+								<tr>
+									<td><label>Commentaire : </label></td><td><textarea  rows = "5" cols = "40" id="commentaire"  name="commentaire" th:field="${commande.commentaire}"></textarea></td>
+								</tr>
+							</table>
+							
+							<input type="hidden" id="id" th:name="id" th:value="${commande.idCommande}" />
+							<button type="submit" class="btn btn-primary" onclick="sendActionAdd(0);" th:text="'Add commande'">Add commande</button>
+							<button type="submit" class="btn btn-primary" th:text="'Edit commande Id = '+ ${commande.idCommande}"></button>
+						</div>
+					</form>
+				</div>
+
+			</div>
+			
+	    </div><!-- end second div col -->
+
+	
 	</div>
 
 
