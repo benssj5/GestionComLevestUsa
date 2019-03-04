@@ -10,7 +10,7 @@ import com.levest.GestionLevestUsa.entities.Produit;
 
 public interface IProduitRepository extends JpaRepository<Produit, Long> {
 
-	@Query("select p from Produit p where p.description like %:x% ")
+	@Query("select p from Produit p where p.description like %:x% OR p.nomProduit like %:x% ")
 	public List<Produit> produitsParMotCle(@Param("x") String mc);
 	
 }

@@ -24,6 +24,14 @@ public class ClientServiceImpl implements IClientService {
 	}
 
 	@Override
+	public Client update(Client client) {
+		Client c = null;
+		//TODO verifier si ce client existe déjà ou pas 
+		c = clientDao.save(client);
+		return c;
+	}
+	
+	@Override
 	public Client selectById(Long id) {
 		
 		Client c = clientDao.getOne(id);

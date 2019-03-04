@@ -6,12 +6,140 @@
 <head>
 <meta charset="utf-8" />
 <title>Gestion Levest USA - Clients</title>
+
+<SCRIPT language="Javascript">
+
+function sendActionAdd(modeAddEdit) {
+	document.getElementById("id").value=modeAddEdit;
+};
+
+</SCRIPT>
+
 </head>
 <body>
 	
 	<div layout:fragment="content">
-TEST 1
 
+		<!-- Criteres de recherche -->
+		<div class="col-md-8">
+			<div class="panel panel-primary">
+				<div class="panel-heading">Critères de recherche :</div>
+				<div class="panel-body">
+				<form th:action="@{/searchCLient}" method="get">
+					<table class="col-md-12" >
+					<tr>
+						<td>nom : </td><td><input type="text"  name="nomCLient"/></td><td><button type="submit" class="btn btn-primary right">Search</button></td>
+					</tr>
+					</table>
+				</form>
+				
+				</div>
+				
+			</div>
+		
+		</div>
+
+		<!-- first col -->
+		<div class="col-md-8">
+		
+			<div class="panel panel-primary">
+				<div class="panel-heading">Liste des Clients :</div>
+				<div class="panel-body">
+					<table class="table table-striped">
+						<tr>
+							<th>Id</th>
+							<th>Name</th>
+							<th>Adresse</th>
+							<th>Email</th>
+							<th>Tel</th>
+							<th>Commentaire</th>
+						</tr>
+						<tr th:each="c:${clients}">
+							<td><a class="btn btn-info" th:href="@{/printClient(id=${c.idClient})}"><label th:text="${c.idClient}"></label></a></td>
+							<td th:text="${c.nomClient}"></td>
+							<td th:text="${c.adresse}"></td>
+							<td th:text="${c.email}"></td>
+							<td th:text="${c.tel}"></td>
+							<td th:text="${c.commentaire}"></td>
+							<td><a class="btn btn-danger" th:href="@{/deleteClient(id=${c.idClient})}">Delete</a></td>
+						</tr>
+
+					</table>
+					
+				</div>
+			</div>
+		
+		</div><!-- end first div col -->
+
+		<!-- second col -->
+		<div class="col-md-4">
+	
+			<div class="panel panel-primary" th:if="${edit} == 0">
+				<div class="panel-heading">Add Client :</div>
+				<div class="panel-body">				
+			
+					<form th:action="@{/addEditClient}" method="post">
+						<div>
+							<table class="table table-condensed table-hover table-striped">
+								 <tr>
+									<td><label>Name : </label></td>   <td><input type="text"  name="nomClient"/></td>
+								</tr>
+								<tr>
+									<td><label>Adresse : </label></td><td><input type="text"  name="adresse"/></td>
+								</tr>
+								<tr>
+									<td><label>Email : </label></td><td><input type="text"  name="email"/></td>
+								</tr>
+								<tr>
+									<td><label>Tel : </label></td><td><input type="text"  name="tel"/></td>
+								</tr>
+								<tr>
+									<td><label>Commentaire : </label></td><td><input type="text"  name="commentaire"/></td>
+								</tr>								
+							</table>
+							<input type="hidden" id="id" th:name="id" th:value="0" />
+							<button type="submit" class="btn btn-primary">Add client</button>
+						</div>
+					</form>
+				</div>
+			</div>
+					
+			<div class="panel panel-primary" th:if="${edit} == 1">
+				<div class="panel-heading">Add/Edit Clients :</div>
+				<div class="panel-body">				
+			
+					<form th:action="@{/addEditClient}" method="post">
+						<div>
+						<table class="table table-condensed table-hover table-striped">
+								 <tr>
+									<td><label>Name : </label></td>   <td><input type="text" id="nomClient"  name="nomClient" th:value="${client.nomClient}"/></td>
+								</tr>
+								<tr>
+									<td><label>Adresse : </label></td><td><input type="text" id="adresse"  name="adresse" th:value="${client.adresse}"/></td>
+								</tr>
+								<tr>
+									<td><label>Email : </label></td><td><input type="text" id="email"  name="email" th:value="${client.email}"/></td>
+								</tr>
+								<tr>
+									<td><label>Tel : </label></td><td><input type="text" id="tel"  name="tel" th:value="${client.tel}"/></td>
+								</tr>
+								<tr>
+									<td><label>Commentaire : </label></td><td><input type="text" id="commentaire"  name="commentaire" th:value="${client.commentaire}"/></td>
+								</tr>
+							</table>
+							
+							<input type="hidden" id="id" th:name="id" th:value="${client.idClient}" />
+							<button type="submit" class="btn btn-primary" onclick="sendActionAdd(0);" th:text="'Add client'">Add client</button>
+							<button type="submit" class="btn btn-primary" th:text="'Edit client Id = '+ ${client.idClient}"></button>
+						</div>
+					</form>
+				</div>
+
+			</div>
+			
+	    </div><!-- end second div col -->
+
+	
 	</div>
 
 

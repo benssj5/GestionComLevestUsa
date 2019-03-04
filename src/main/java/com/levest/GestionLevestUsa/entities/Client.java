@@ -13,10 +13,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Client implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idClient;
@@ -31,9 +30,7 @@ public class Client implements Serializable {
 	@JsonIgnore
 	private List<Commande> commandes;
 	
-
-
-
+	
 	public Long getIdClient() {
 		return idClient;
 	}
