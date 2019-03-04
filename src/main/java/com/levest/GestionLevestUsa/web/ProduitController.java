@@ -26,7 +26,8 @@ public class ProduitController {
 	}	
 	
 	@RequestMapping("/addProduit")
-	public String addUser(ModelMap model,  @ModelAttribute("nomProduit")String nomProduit,  @ModelAttribute("description")String description, @ModelAttribute("photo")String photo,  @ModelAttribute("quantite")int quantite) { 
+	public String addUser(ModelMap model,  @ModelAttribute("nomProduit")String nomProduit,  @ModelAttribute("description")String description, @ModelAttribute("photo")String photo,  @ModelAttribute("quantite")int quantite) {
+		System.out.println("addProduit");
 		Produit p = new Produit();
 		p.setNomProduit(nomProduit);
 		p.setDescription(description);
@@ -39,7 +40,7 @@ public class ProduitController {
 	}
 	
 	
-	@RequestMapping("/deleteUser")
+	@RequestMapping("/deleteProduit")
 	public String deleteProduit(ModelMap model,long id) {
 		
 		produitService.delete(id);
@@ -48,7 +49,7 @@ public class ProduitController {
 	}
 	
 	/**
-	 * Affiche le user selectionner pour le modifier
+	 * Affiche le produit selectionné pour le modifier
 	 * @param model
 	 * @param id
 	 * @param name
@@ -57,16 +58,17 @@ public class ProduitController {
 	 * @return
 	 */
 	@RequestMapping("/printProduit")
-	public String printUser(ModelMap model,long id) {
+	public String printProduit(ModelMap model,long id) {
 		Produit p = produitService.selectById(id);
 		model.put("produit", p);
 		
 		return index(model,1);
 	}
 	
-	@RequestMapping("/editUser")
-	public String editUser(ModelMap model,long id, String nomProduit, String description, String photo, int quantite) {
-		//if id==0 then we add an user else we modify an user existing
+	@RequestMapping("/editProduit")
+	public String editProduit(ModelMap model,long id, String nomProduit, String description, String photo, int quantite) {
+		//if id==0 then we add a product else we modify a product existing
+		System.out.println("editProduit : " + id);
 		Produit p = new Produit();
 		p.setIdProduit(id);
 		p.setNomProduit(nomProduit);
