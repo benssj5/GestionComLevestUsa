@@ -28,7 +28,7 @@ function sendActionAdd(modeAddEdit) {
 				<form th:action="@{/searchClient}" method="get">
 					<table class="col-md-12" >
 					<tr>
-						<td>nom : </td><td><input type="text"  name="nomClient"/></td><td><button type="submit" class="btn btn-primary right">Search</button></td>
+						<td>Criteria : </td><td><input type="text"  name="nomClient"/></td><td><button type="submit" class="btn btn-primary right">Search</button></td>
 					</tr>
 					</table>
 				</form>
@@ -52,7 +52,7 @@ function sendActionAdd(modeAddEdit) {
 							<th>Adresse</th>
 							<th>Email</th>
 							<th>Tel</th>
-							<th>Commentaire</th>
+							<th>Comments</th>
 						</tr>
 						<tr th:each="c:${clients}">
 							<td><a class="btn btn-info" th:href="@{/printClient(id=${c.idClient})}"><label th:text="${c.idClient}"></label></a></td>
@@ -94,7 +94,7 @@ function sendActionAdd(modeAddEdit) {
 									<td><label>Tel : </label></td><td><input type="text"  name="tel"/></td>
 								</tr>
 								<tr>
-									<td><label>Commentaire : </label></td><td><textarea  rows = "5" cols = "40"  name="commentaire"></textarea></td>
+									<td><label>Comments : </label></td><td><textarea  rows = "5" cols = "40"  name="commentaire"></textarea></td>
 								</tr>								
 							</table>
 							<input type="hidden" id="id" th:name="id" th:value="0" />
