@@ -8,8 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.levest.GestionLevestUsa.entities.Client;
 import com.levest.GestionLevestUsa.entities.Commande;
-import com.levest.GestionLevestUsa.entities.Produit;
+import com.levest.GestionLevestUsa.service.IClientService;
 import com.levest.GestionLevestUsa.service.ICommandeService;
 
 
@@ -19,12 +20,22 @@ public class CommandeController {
 
 	@Autowired
 	private ICommandeService commandeService;
+	@Autowired
+	private IClientService clientService;
 	
 	@RequestMapping("/commandes")
 	public String index(ModelMap model, Integer edit){
+		
 		List<Commande> commandes = commandeService.listCommandes();
-		System.out.println("taille liste commande : "+commandes.size());
+		List<Client> clients = clientService.listClients();
+		
+		Client allCLient = new Client();
+		allCLient.setIdClient(new Long(0));
+		allCLient.setNomClient("ALL CLIENTS");
+		clients.add(0, allCLient);
+		
 		model.put("commandes", commandes);
+		model.put("clients", clients);
 		model.put("edit",edit==null?0:edit.intValue());
 		return "commandes";
 	}	

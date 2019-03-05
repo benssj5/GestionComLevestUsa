@@ -25,6 +25,8 @@ public class Commande implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idCommande;
 	private Date dateCommande;
+	private Boolean confirm;
+	private Double total;
 	@OneToMany(mappedBy = "commande")
 	@JsonIgnore
 	private List<LigneCommande> listLignesCommande;
@@ -64,6 +66,23 @@ public class Commande implements Serializable {
 
 	public void setClient(Client client) {
 		this.client = client;
+	}
+
+
+	public Boolean getConfirm() {
+		return confirm;
+	}
+
+	public void setConfirm(Boolean confirm) {
+		this.confirm = confirm;
+	}
+	
+	public Double getTotal() {
+		return total;
+	}
+
+	public void setTotal(Double total) {
+		this.total = total;
 	}
 
 	public Commande() {
