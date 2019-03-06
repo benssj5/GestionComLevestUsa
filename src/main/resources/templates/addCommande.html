@@ -28,25 +28,17 @@ function sendActionAdd(modeAddEdit) {
 				<form th:action="@{/searchCommande}" method="get">
 					<table class="col-md-12" >
 					<tr>
-						<td><label>id Commande : &nbsp;</label><input type="text"  name="idCommande"/></td>
+						<td><label>id Commande : &nbsp;</label><label  name="idCommande" th:text="${commande.idCommande}"></label></td>
 						<td>Client : &nbsp; <select name="idClient" >
-											    <option th:each="c:${clients}" th:value="${c.idClient}" th:text="${c.nomClient}"></option>
+											    <option th:each="c:${clients}" th:selected="${c.idClient == commande.client.idClient}" th:value="${c.idClient}" th:text="${c.nomClient}"></option>
 											</select></td>
-						<td><label>Confirmed : &nbsp;</label>
-											<select id="confirm" name="confirm">
-											    <option value="-1">All Commandes</option>
-											    <option value="0">Not Confirmed</option>
-											    <option value="1">Confirmed</option>
-											</select>
-											</td>
+						<td><label>Confirmed : &nbsp;</label><input type="checkbox" name="confirm"></td>
 					</tr>
 					<tr>
 						<td><label>Date between : &nbsp;</label><input type="text" name="startDate" placeholder="YYYY-DD-MM"  
 pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))" 
 title="Enter a date in this format YYYY-DD-MM"/></td>
-						<td><label>&nbsp; to &nbsp;</label><input type="text" name="endDate" placeholder="YYYY-MM-DD"  
-pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))" 
-title="Enter a date in this format YYYY-MM-DD"/></td>
+						
 						<td><button type="submit" class="btn btn-primary right">Search</button></td>
 					</tr>
 					</table>
@@ -64,27 +56,31 @@ title="Enter a date in this format YYYY-MM-DD"/></td>
 		</div>
 		<div class="col-md-1"></div>
 
-		<!-- Tableau des Commandes -->
+		<!-- Tableau de la Commande -->
 		<div class="col-md-12">
 		
 			<div class="panel panel-primary">
-				<div class="panel-heading">Liste des Commandes :</div>
+				<div class="panel-heading">Liste des Produits :</div>
 				<div class="panel-body">
 					<table class="table table-striped">
 						<tr>
-							<th>Id</th>
-							<th>Date</th>
-							<th>Client</th>
-							<th>Confirm</th>
+							<th>Photo</th>
+							<th>Item</th>
 							<th>Price</th>
+							<th>Quantity</th>
+							<th>Price item(s)</th>
 						</tr>
-						<tr th:each="c:${commandes}">
-							<td><a class="btn btn-info" th:href="@{/addEditCommande(id=${c.idCommande})}"><label th:text="${c.idCommande}"></label></a></td>
-							<td th:text="${#strings.substring(c.dateCommande,0,10)}"></td>
-							<td th:text="${c.client.nomClient}"></td>
-							<td><input type="checkbox" name="mycheckbox" th:checked="${c.confirm}" disabled="disabled" /></td>
-							<td th:text="${c.total} + '&nbsp; $'"></td>
-							<td><a class="btn btn-danger" th:href="@{/deleteCommande(id=${c.idCommande})}">Delete</a></td>
+						<tr th:each="lc:${commande.listLignesCommande}">
+							<td><img th:src="${lc.produit.photo}" width="100" height="100"/></td>
+							<td th:text="${lc.produit.nomProduit}"></td>
+							<td th:text="${lc.prix} + '&nbsp; $'"></td>
+							<td th:text="${lc.quantite}"></td>
+							<td th:text="${lc.prix * lc.quantite} + '&nbsp; $'"></td>
+							<td><a class="btn btn-danger" th:href="@{/deleteLigneCommande(id=${lc.idLigneCommande})}">Delete</a></td>
+						</tr>
+						<tr>
+							<td colspan="4"><b>TOTAL PRICE</b></td>
+							<td th:text="${commande.total} + '&nbsp; $'"></td>
 						</tr>
 
 					</table>

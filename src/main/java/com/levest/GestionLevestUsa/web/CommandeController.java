@@ -1,6 +1,5 @@
 package com.levest.GestionLevestUsa.web;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,18 +56,7 @@ public class CommandeController {
 		return index(model,1);
 	}
 	
-	
-	@RequestMapping("/addEditCommande")
-	public String addEditCommande(ModelMap model,long id, Date date) {
-		//if id==0 then we add a commande else we modify a commande existing
-		//System.out.println("editCommande : " + id);
-		Commande c = new Commande();
-		c.setIdCommande(id);
-		c.setDateCommande(date);
-		commandeService.update(c);
-		return index(model,0);
-	}
-	
+		
 	/**
 	 * Search with criteria name and/or description
 	 * @param model
@@ -82,6 +70,10 @@ public class CommandeController {
 		System.out.println("confirm = " + confirm);
 		System.out.println("start date = " + startDate);
 		System.out.println("end date = " + endDate);
+		
+		//LocalDate date3 = LocalDate.of(startDate);
+		
+		
 		List<Commande> commandes = commandeService.selectByCriterias((idCommande==null || idCommande.equals(""))?new Long(0):new Long(idCommande),(idClient == null || idClient.equals(""))?new Long(0): new Long(idClient),
 					confirm, startDate, endDate);//commandeService.getCommandesParMotCle(nomCommande);
 		//System.out.println("searchCommande : "+commandes.size());
@@ -103,5 +95,23 @@ public class CommandeController {
 		clients.add(0, allCLient);
 		return clients;
 	}
+	
+	
+	/******************************************************************************************/
+	/********************************		La Commande       *********************************/
+	/******************************************************************************************/
+	
+	@RequestMapping("/addEditCommande")
+	public String indexCommande(ModelMap model, Long id ,Integer edit){
+		
+		Commande commande = commandeService.selectById(id);
+		
+		List<Client> clients = clientService.listClients();
+		
+		model.put("commande", commande);
+		model.put("clients", clients);
+		model.put("edit",edit==null?0:edit.intValue());
+		return "addCommande";
+	}	
 	
 }
