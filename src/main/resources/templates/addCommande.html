@@ -7,10 +7,14 @@
 <meta charset="utf-8" />
 <title>Gestion Levest USA - Commandes</title>
 
-<SCRIPT language="Javascript">
+<SCRIPT>
 
 function sendActionAdd(modeAddEdit) {
 	document.getElementById("id").value=modeAddEdit;
+};
+
+function selectImg(src) {
+	document.getElementById("image").src=src;
 };
 
 </SCRIPT>
@@ -23,7 +27,7 @@ function sendActionAdd(modeAddEdit) {
 		<!-- Criteres de recherche -->
 		<div class="col-md-8">
 			<div class="panel panel-primary">
-				<div class="panel-heading">Critères de recherche :</div>
+				<div class="panel-heading">Informations Commande : </div>
 				<div class="panel-body">
 				<form th:action="@{/searchCommande}" method="get">
 					<table class="col-md-12" >
@@ -57,7 +61,7 @@ title="Enter a date in this format YYYY-DD-MM"/></td>
 		<div class="col-md-1"></div>
 
 		<!-- Tableau de la Commande -->
-		<div class="col-md-12">
+		<div class="col-md-8">
 		
 			<div class="panel panel-primary">
 				<div class="panel-heading">Liste des Produits :</div>
@@ -70,7 +74,7 @@ title="Enter a date in this format YYYY-DD-MM"/></td>
 							<th>Quantity</th>
 							<th>Price item(s)</th>
 						</tr>
-						<tr th:each="lc:${commande.listLignesCommande}">
+						<tr th:each="lc:${commande.listLignesCommande}" onmouseover="selectImg(this.getAttribute('data-id'))"  th:data-id="${lc.produit.photo}" >
 							<td><img th:src="${lc.produit.photo}" width="100" height="100"/></td>
 							<td th:text="${lc.produit.nomProduit}"></td>
 							<td th:text="${lc.prix} + '&nbsp; $'"></td>
@@ -90,7 +94,9 @@ title="Enter a date in this format YYYY-DD-MM"/></td>
 		
 		</div><!-- end first div col -->
 
-		
+		<div class="col-md-4"><!-- Affichage du produit -->
+			<img id="image" src="/img/levest_logo_hover.png" width="400" height="400"/>
+		</div>
 
 	
 	</div>
