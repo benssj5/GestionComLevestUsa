@@ -14,4 +14,6 @@ public interface ICommandeRepository extends JpaRepository<Commande, Long> {
 	@Query("select lc from LigneCommande lc where lc.commande.idCommande =:x")
 	public List<LigneCommande> getAllLigneCommandeById(@Param("x") long commandeId);
 	
+
+	
 }

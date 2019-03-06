@@ -27,12 +27,8 @@ public class CommandeController {
 	public String index(ModelMap model, Integer edit){
 		
 		List<Commande> commandes = commandeService.listCommandes();
-		List<Client> clients = clientService.listClients();
 		
-		Client allCLient = new Client();
-		allCLient.setIdClient(new Long(0));
-		allCLient.setNomClient("ALL CLIENTS");
-		clients.add(0, allCLient);
+		List<Client> clients = getListClientsSelector();
 		
 		model.put("commandes", commandes);
 		model.put("clients", clients);
@@ -65,7 +61,7 @@ public class CommandeController {
 	@RequestMapping("/addEditCommande")
 	public String addEditCommande(ModelMap model,long id, Date date) {
 		//if id==0 then we add a commande else we modify a commande existing
-		System.out.println("editCommande : " + id);
+		//System.out.println("editCommande : " + id);
 		Commande c = new Commande();
 		c.setIdCommande(id);
 		c.setDateCommande(date);
@@ -80,14 +76,32 @@ public class CommandeController {
 	 * @return
 	 */
 	@RequestMapping("/searchCommande")
-	public String searchCommande(ModelMap model,String nomCommande) {
-		System.out.println("searchCommande ");
-		List<Commande> commandes = null;//commandeService.getCommandesParMotCle(nomCommande);
-		System.out.println("searchCommande : "+commandes.size());
+	public String searchCommande(ModelMap model,String idCommande, String idClient, int confirm, String startDate, String endDate) {
+		System.out.println("searchCommande\n idCommande = " + idCommande);
+		System.out.println("idClient = " + idClient);
+		System.out.println("confirm = " + confirm);
+		System.out.println("start date = " + startDate);
+		System.out.println("end date = " + endDate);
+		List<Commande> commandes = commandeService.selectByCriterias((idCommande==null || idCommande.equals(""))?new Long(0):new Long(idCommande),(idClient == null || idClient.equals(""))?new Long(0): new Long(idClient),
+					confirm, startDate, endDate);//commandeService.getCommandesParMotCle(nomCommande);
+		//System.out.println("searchCommande : "+commandes.size());
+		
+		List<Client> clients = getListClientsSelector();
+		
+		model.put("clients", clients);
 		model.put("commandes", commandes);
 		model.put("edit",0);
 		
 		return "commandes";
+	}
+	
+	private List<Client> getListClientsSelector() {
+		List<Client> clients = clientService.listClients();
+		Client allCLient = new Client();
+		allCLient.setIdClient(new Long(0));
+		allCLient.setNomClient("ALL CLIENTS");
+		clients.add(0, allCLient);
+		return clients;
 	}
 	
 }

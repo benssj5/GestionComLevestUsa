@@ -29,14 +29,20 @@ function sendActionAdd(modeAddEdit) {
 					<table class="col-md-12" >
 					<tr>
 						<td><label>id Commande : &nbsp;</label><input type="text"  name="idCommande"/></td>
-						<td>Client : &nbsp; <select th:field="*{clients}">
+						<td>Client : &nbsp; <select name="idClient" >
 											    <option th:each="c:${clients}" th:value="${c.idClient}" th:text="${c.nomClient}"></option>
 											</select></td>
-						<td><label>Confirmed : &nbsp;</label><input type="checkbox"  name="confirm"/></td>
+						<td><label>Confirmed : &nbsp;</label>
+											<select id="confirm" name="confirm">
+											    <option value="-1">All Commandes</option>
+											    <option value="0">Not Confirmed</option>
+											    <option value="1">Confirmed</option>
+											</select>
+											</td>
 					</tr>
 					<tr>
-						<td><label>Date between : &nbsp;</label><input type="date" th:value="${startDate}"></td>
-						<td><label>&nbsp; to &nbsp;</label><input type="date" th:value="${endDate}"></td>
+						<td><label>Date between : &nbsp;</label><input type="date" name="startDate"></td>
+						<td><label>&nbsp; to &nbsp;</label><input type="date" name="endDate"></td>
 						<td><button type="submit" class="btn btn-primary right">Search</button></td>
 					</tr>
 					</table>

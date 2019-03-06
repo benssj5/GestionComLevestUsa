@@ -1,13 +1,12 @@
 package com.levest.GestionLevestUsa.service;
 
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.levest.GestionLevestUsa.dao.ICommandeRepository;
+import com.levest.GestionLevestUsa.dao.ICommandeRepositoryCustom;
 import com.levest.GestionLevestUsa.dao.ILigneCommandeRepository;
 import com.levest.GestionLevestUsa.entities.Commande;
 import com.levest.GestionLevestUsa.entities.LigneCommande;
@@ -17,6 +16,9 @@ public class CommandeServiceImpl implements ICommandeService {
 
 	@Autowired
 	private ICommandeRepository commandeDao;
+	
+	@Autowired
+	ICommandeRepositoryCustom commandeDao2;
 	
 	@Autowired
 	private ILigneCommandeRepository lignesCommandesDao;
@@ -66,12 +68,12 @@ public class CommandeServiceImpl implements ICommandeService {
 	}
 
 	@Override
-	public Commande selectByDate(Long idClient, Date date) {
-		// TODO A FAIRE
-		return null;
+	public List<Commande> selectByCriterias(Long idCommande, Long idClient, int confirm, String startDate, String endDate) {
+		
+		// TODO a FAIRE
+		List<Commande> list = commandeDao2.selector(idCommande, idClient, confirm, startDate, endDate);
+		return list;
 	}
-
-
 
 
 }

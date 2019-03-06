@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 import com.levest.GestionLevestUsa.entities.Client;
 import com.levest.GestionLevestUsa.entities.Commande;
-import com.levest.GestionLevestUsa.entities.Produit;
 
 public interface IClientRepository extends JpaRepository<Client, Long> {
 
