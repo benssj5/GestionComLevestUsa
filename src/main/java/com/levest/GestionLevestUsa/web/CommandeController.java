@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.levest.GestionLevestUsa.entities.Client;
 import com.levest.GestionLevestUsa.entities.Commande;
+import com.levest.GestionLevestUsa.entities.LigneCommande;
 import com.levest.GestionLevestUsa.service.IClientService;
 import com.levest.GestionLevestUsa.service.ICommandeService;
 
@@ -43,17 +44,21 @@ public class CommandeController {
 	}
 	
 	/**
-	 * Affiche le commande selectionné pour le modifier
+	 * Affiche le commande selectionnée
 	 * @param model
 	 * @param id
 	 * @return
 	 */
 	@RequestMapping("/printCommande")
-	public String printCommande(ModelMap model,long id) {
-		Commande c = commandeService.selectById(id);
-		model.put("commande", c);
+	public String printCommande(ModelMap model,long id, Integer edit) {
+		Commande commande = commandeService.selectById(id);
 		
-		return index(model,1);
+		List<Client> clients = clientService.listClients();
+		
+		model.put("commande", commande);
+		model.put("clients", clients);
+		model.put("edit",edit==null?0:edit.intValue());
+		return "printCommande";
 	}
 	
 		
@@ -113,5 +118,39 @@ public class CommandeController {
 		model.put("edit",edit==null?0:edit.intValue());
 		return "addCommande";
 	}	
+	
+	
+	@RequestMapping("/deleteLigneCommande")
+	public String deleteLigneCommande(ModelMap model,long idCommande, long idLigneCommande) {
+		commandeService.deleteLigneCommande(idLigneCommande);
+		
+		updateTotalPriceCommande(idCommande);
+		
+		return indexCommande(model, idCommande, 0);
+	}
+	
+	
+	/**
+	 * update Total Price of a commande
+	 * @param idCommande
+	 * @return
+	 */
+	public Commande updateTotalPriceCommande (long idCommande){
+		
+		Double total = new Double(0);
+		Commande commande = commandeService.selectById(idCommande);
+		List<LigneCommande> list = commandeService.getAllLigneCommandeById(idCommande);
+		
+		if(list != null && !list.isEmpty()) {
+			for(LigneCommande lc : list) {
+				total += (lc.getPrix() * lc.getQuantite());
+			}
+		}
+		
+		commande.setTotal(total);
+		commandeService.update(commande);
+		
+		return commande;
+	}
 	
 }

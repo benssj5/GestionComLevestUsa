@@ -60,6 +60,11 @@ public class CommandeServiceImpl implements ICommandeService {
 		commandeDao.deleteById(id);
 	}
 	
+	@Override
+	public List<LigneCommande> getAllLigneCommandeById(Long id) {
+		List<LigneCommande> list = commandeDao.getAllLigneCommandeById(id);
+		return list;
+	}
 
 	@Override
 	public List<Commande> listCommandes() {
@@ -73,6 +78,12 @@ public class CommandeServiceImpl implements ICommandeService {
 		// TODO a FAIRE
 		List<Commande> list = commandeDao2.selector(idCommande, idClient, confirm, startDate, endDate);
 		return list;
+	}
+
+	@Override
+	public void deleteLigneCommande(Long id) {
+		System.out.println("TEST DELETE LigneCommande id : " +id);
+		lignesCommandesDao.deleteById(id);
 	}
 
 

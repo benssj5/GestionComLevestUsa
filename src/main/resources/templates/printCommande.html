@@ -58,11 +58,11 @@ title="Enter a date in this format YYYY-DD-MM"/></td>
 		<div class="col-md-2">
 			<table>
 				<tr>
-					<td><a class="btn btn-primary" th:href="@{/addEditCommande(id=0)}">Update Commande</a></td>
+					<td><a class="btn btn-primary" th:href="@{/addEditCommande(id=${commande.idCommande})}">Update Commande</a></td>
 				</tr>
 				<tr><td>&nbsp;</td></tr>	
 				<tr>
-					<td><a class="btn btn-primary" th:href="@{/deleteCommande(id=${idCommande})}">Delete Commande</a></td>
+					<td><a class="btn btn-primary" th:href="@{/deleteCommande(id=${commande.idCommande})}">Delete Commande</a></td>
 				</tr>
 			</table>
 		</div>
@@ -88,7 +88,6 @@ title="Enter a date in this format YYYY-DD-MM"/></td>
 							<td th:text="${lc.prix} + '&nbsp; $'"></td>
 							<td th:text="${lc.quantite}"></td>
 							<td th:text="${lc.prix * lc.quantite} + '&nbsp; $'"></td>
-							<td><a class="btn btn-danger" th:href="@{/deleteLigneCommande(idCommande=${commande.idCommande},idLigneCommande=${lc.idLigneCommande})}">Delete Item</a></td>
 						</tr>
 						<tr>
 							<td colspan="4"><b>TOTAL PRICE</b></td>

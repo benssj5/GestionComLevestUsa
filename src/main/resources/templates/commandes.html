@@ -58,14 +58,13 @@ title="Enter a date in this format YYYY-MM-DD"/></td>
 		
 		</div>
 		
-		<div class="col-md-1"></div>
 		<div class="col-md-2">
 			<a class="btn btn-primary" th:href="@{/addEditCommande(id=0)}">Add Commande</a>
 		</div>
-		<div class="col-md-1"></div>
+		<div class="col-md-2"></div>
 
 		<!-- Tableau des Commandes -->
-		<div class="col-md-12">
+		<div class="col-md-10">
 		
 			<div class="panel panel-primary">
 				<div class="panel-heading">Liste des Commandes :</div>
@@ -79,12 +78,12 @@ title="Enter a date in this format YYYY-MM-DD"/></td>
 							<th>Price</th>
 						</tr>
 						<tr th:each="c:${commandes}">
-							<td><a class="btn btn-info" th:href="@{/addEditCommande(id=${c.idCommande})}"><label th:text="${c.idCommande}"></label></a></td>
+							<td><a class="btn btn-info" th:href="@{/printCommande(id=${c.idCommande})}"><label th:text="${c.idCommande}"></label></a></td>
 							<td th:text="${#strings.substring(c.dateCommande,0,10)}"></td>
 							<td th:text="${c.client.nomClient}"></td>
 							<td><input type="checkbox" name="mycheckbox" th:checked="${c.confirm}" disabled="disabled" /></td>
 							<td th:text="${c.total} + '&nbsp; $'"></td>
-							<td><a class="btn btn-danger" th:href="@{/deleteCommande(id=${c.idCommande})}">Delete</a></td>
+							<td><a class="btn btn-danger right" th:href="@{/deleteCommande(id=${c.idCommande})}">Delete Commande</a></td>
 						</tr>
 
 					</table>
