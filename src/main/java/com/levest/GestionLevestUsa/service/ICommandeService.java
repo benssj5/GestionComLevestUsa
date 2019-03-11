@@ -9,7 +9,9 @@ public interface ICommandeService {
 
 	public Commande create(Commande c);
 	public Commande update(Commande c);
+	public LigneCommande updateLigneCommande(LigneCommande lc);
 	public Commande selectById(Long id);
+	public LigneCommande selectLigneCommandeById(Long id);
 	public void delete(Long id);
 	public void deleteLigneCommande(Long id);
 	public List<Commande> listCommandes();

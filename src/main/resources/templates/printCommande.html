@@ -58,11 +58,11 @@ title="Enter a date in this format YYYY-DD-MM"/></td>
 		<div class="col-md-2">
 			<table>
 				<tr>
-					<td><a class="btn btn-primary" th:href="@{/addEditCommande(id=${commande.idCommande})}">Update Commande</a></td>
+					<td>&nbsp;</td>
 				</tr>
 				<tr><td>&nbsp;</td></tr>	
 				<tr>
-					<td><a class="btn btn-primary" th:href="@{/deleteCommande(id=${commande.idCommande})}">Delete Commande</a></td>
+					<td><a class="btn btn-danger" th:href="@{/deleteCommande(id=${commande.idCommande})}">Delete Commande</a></td>
 				</tr>
 			</table>
 		</div>
@@ -72,7 +72,7 @@ title="Enter a date in this format YYYY-DD-MM"/></td>
 		<div class="col-md-8">
 		
 			<div class="panel panel-primary">
-				<div class="panel-heading">Liste des Produits :</div>
+				<div class="panel-heading">Liste des Items :</div>
 				<div class="panel-body">
 					<table class="table table-striped">
 						<tr>
@@ -88,6 +88,8 @@ title="Enter a date in this format YYYY-DD-MM"/></td>
 							<td th:text="${lc.prix} + '&nbsp; $'"></td>
 							<td th:text="${lc.quantite}"></td>
 							<td th:text="${lc.prix * lc.quantite} + '&nbsp; $'"></td>
+							<td><a class="btn btn-danger" th:href="@{/deleteLigneCommande(idCommande=${commande.idCommande},idLigneCommande=${lc.idLigneCommande})}">Delete Item</a></td>
+							<td><a class="btn btn-primary" th:href="@{/addEditLigneCommande(idLigneCommande=${lc.idLigneCommande})}">Update Item</a></td>
 						</tr>
 						<tr>
 							<td colspan="4"><b>TOTAL PRICE</b></td>
@@ -100,13 +102,45 @@ title="Enter a date in this format YYYY-DD-MM"/></td>
 			</div>
 		
 		</div><!-- end first div col -->
+		
+		<div class="col-md-4">
+			<div class="panel panel-primary" th:if="${lc} != null" >
+				<div class="panel-heading">Add/Edit Item :</div>
+				<div class="panel-body">				
+		
+					<form th:action="@{/saveLigneCommande}" method="post">
+						<div>
+						<table class="table table-condensed table-hover table-striped">
+								 <tr>
+									<td><label>Item : </label></td>   <td><select name="idProduit" >
+									<option th:each="p:${produits}" th:selected="${p.idProduit == lc.produit.idProduit}" th:value="${p.idProduit}" th:text="${p.nomProduit}"></option>
+								</select></td>
+								</tr>
+								<tr>
+									<td><label>Price/Item : </label></td><td><input type="number" id="price"  name="price" th:value="${lc.prix}"/></td>
+								</tr>
+								<tr>
+									<td><label>Quantity : </label></td><td><input type="number" id="quantity"  name="quantity" th:value="${lc.quantite}"/></td>
+								</tr>
+								<tr>
+									<td><label>Price Item(s) : </label></td><td><label id="priceTotal"></label></td>
+								</tr>
+							</table>
+							
+							<input type="hidden" id="idLigneCommande" th:name="idLigneCommande" th:value="${lc.idLigneCommande}" />
+							<td><button type="submit" class="btn btn-primary right">Save Item</button></td>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 
-		<div class="col-md-4"><!-- Affichage du produit -->
+		<div class="col-md-4" th:if="${lc} == null" ><!-- Affichage du produit -->
 			<img id="image" src="/img/levest_logo_hover.png" width="400" height="400"/>
 		</div>
 
 	
-	</div>
+	</div><!-- Fin layout content -->
 
 
 </body>

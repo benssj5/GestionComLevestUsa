@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.levest.GestionLevestUsa.entities.Client;
 import com.levest.GestionLevestUsa.entities.Commande;
 import com.levest.GestionLevestUsa.entities.LigneCommande;
+import com.levest.GestionLevestUsa.entities.Produit;
 import com.levest.GestionLevestUsa.service.IClientService;
 import com.levest.GestionLevestUsa.service.ICommandeService;
+import com.levest.GestionLevestUsa.service.IProduitService;
 
 
 
@@ -22,6 +24,8 @@ public class CommandeController {
 	private ICommandeService commandeService;
 	@Autowired
 	private IClientService clientService;
+	@Autowired
+	private IProduitService produitService;
 	
 	@RequestMapping("/commandes")
 	public String index(ModelMap model, Integer edit){
@@ -54,8 +58,11 @@ public class CommandeController {
 		Commande commande = commandeService.selectById(id);
 		
 		List<Client> clients = clientService.listClients();
+		List<Produit> produits = produitService.getListProduits();
 		
+		model.put("lc", null);
 		model.put("commande", commande);
+		model.put("produits", produits);
 		model.put("clients", clients);
 		model.put("edit",edit==null?0:edit.intValue());
 		return "printCommande";
@@ -112,11 +119,14 @@ public class CommandeController {
 		Commande commande = commandeService.selectById(id);
 		
 		List<Client> clients = clientService.listClients();
+		List<Produit> produits = produitService.getListProduits();
 		
+		model.put("lc", null);
 		model.put("commande", commande);
+		model.put("produits", produits);
 		model.put("clients", clients);
 		model.put("edit",edit==null?0:edit.intValue());
-		return "addCommande";
+		return "printCommande";
 	}	
 	
 	
@@ -129,6 +139,37 @@ public class CommandeController {
 		return indexCommande(model, idCommande, 0);
 	}
 	
+	@RequestMapping("/saveLigneCommande")
+	public String saveLigneCommande(ModelMap model, long idLigneCommande, long idProduit, double price, int quantity) {
+		
+		LigneCommande lc = commandeService.selectLigneCommandeById(idLigneCommande);
+		lc.setPrix(price);
+		lc.setQuantite(quantity);
+		Produit p = produitService.selectById(idProduit);
+		lc.setProduit(p);
+		commandeService.updateLigneCommande(lc);
+		
+		updateTotalPriceCommande(lc.getCommande().getIdCommande());
+		
+		return indexCommande(model, lc.getCommande().getIdCommande(), 0);
+	}
+	
+	@RequestMapping("/addEditLigneCommande")
+	public String addEditLigneCommande(ModelMap model, long idLigneCommande) {
+		//if id==0 then we add a product else we modify a product existing
+		System.out.println("Etape 0 ");
+		LigneCommande lc = commandeService.selectLigneCommandeById(idLigneCommande);
+		List<Produit> produits = produitService.getListProduits();
+		List<Client> clients = clientService.listClients();
+		System.out.println("Etape 1 ");
+		model.put("commande", lc.getCommande());
+		model.put("lc", lc);
+		model.put("clients", clients);
+		model.put("produits", produits);
+		model.put("edit",0);
+		System.out.println("Etape 2 ");
+		return "printCommande";
+	}
 	
 	/**
 	 * update Total Price of a commande

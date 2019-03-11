@@ -86,5 +86,19 @@ public class CommandeServiceImpl implements ICommandeService {
 		lignesCommandesDao.deleteById(id);
 	}
 
+	@Override
+	public LigneCommande updateLigneCommande(LigneCommande lc) {
+		LigneCommande ligneCommande = null;
+		ligneCommande = lignesCommandesDao.saveAndFlush(lc);
+		return ligneCommande;
+
+	}
+
+	@Override
+	public LigneCommande selectLigneCommandeById(Long id) {
+		LigneCommande lc = lignesCommandesDao.getOne(id);
+		return lc;
+	}
+
 
 }
